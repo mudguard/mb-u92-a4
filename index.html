@@ -2,7 +2,7 @@
 <html lang="en" style="background-color: #5f6368;">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Kitchn Edwards</title>
 
   <link rel="manifest" href="manifest.json">
@@ -14,18 +14,20 @@
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/1027/1027128.png">
 
   <style>
+    /* Full screen and background setup */
     body, html { 
       margin: 0; padding: 0; 
       height: 100%; width: 100%; 
       overflow: hidden; 
-      background-color: #5f6368 !important; /* Grey background */
+      background-color: #5f6368 !important; 
     }
 
+    /* Loading Screen Overlay */
     #loading-screen {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: #5f6368; /* Grey background */
+      background: #5f6368; 
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -34,37 +36,64 @@
       transition: opacity 0.6s ease;
     }
 
-    .brand-text {
-      color: #1a1c23; /* Dark Navy text */
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      font-size: 1.2rem;
-      font-weight: 400; /* Bumped slightly so it's readable on grey */
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin: 15px 0 0 0;
+    #loading-screen img { 
+      width: 85px; 
+      height: 85px; 
     }
 
-    /* ... rest of your pulse and iframe CSS remains the same ... */
-    #loading-screen img { width: 85px; height: 85px; }
-    .pulse-container { display: flex; flex-direction: column; align-items: center; animation: pulse 2s infinite ease-in-out; }
-    @keyframes pulse { 0% { transform: scale(0.98); opacity: 0.7; } 50% { transform: scale(1.02); opacity: 1; } 100% { transform: scale(0.98); opacity: 0.7; } }
-    iframe { border: none; width: 100%; height: 100%; display: block; }
+    .brand-text {
+      color: #1a1c23; 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 1.2rem;
+      font-weight: 500; /* Medium weight for better contrast on grey */
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin: 20px 0 0 0;
+    }
+
+    .pulse-container { 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      animation: pulse 2s infinite ease-in-out; 
+    }
+
+    @keyframes pulse { 
+      0% { transform: scale(0.98); opacity: 0.7; } 
+      50% { transform: scale(1.02); opacity: 1; } 
+      100% { transform: scale(0.98); opacity: 0.7; } 
+    }
+
+    /* Iframe covering the whole screen behind the loader */
+    iframe { 
+      border: none; 
+      width: 100%; 
+      height: 100%; 
+      display: block; 
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
   </style>
 </head>
-<body style="background-color: #5f6368;"> <div id="loading-screen">
+<body style="background-color: #5f6368;">
+
+  <div id="loading-screen">
     <div class="pulse-container">
       <img src="https://cdn-icons-png.flaticon.com/512/1027/1027128.png">
       <p class="brand-text">Kitchn Edwards</p>
     </div>
   </div>
 
-  <iframe id="app-frame" src="https://script.google.com/macros/s/AKfycby4I8XGdE1ZMeQrJO43wG2_qm40lOquTNX6VSOhHaVS-I99l-1pQZU2IS6-fMfd1hTv/exec"></iframe>
+  <iframe id="app-frame" src="https://script.google.com/macros/s/AKfycby4I8XGdE1ZMeQrJO43wG2_qm40lOquTNX6VSOhHaVS-I99l-1pQZU2IS6-fMfd1hTv/exec" allow="geolocation; microphone; camera"></iframe>
 
   <script>
-  if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(err => console.log('SW error:', err));
     }
 
+    // Hide loader once the GitHub page is "ready"
+    // Note: We use 3500ms (3.5s) to ensure Google's slow iframe has a head start
     window.addEventListener('load', function() {
       setTimeout(function() {
         const loader = document.getElementById('loading-screen');
@@ -72,7 +101,7 @@
         setTimeout(() => {
           loader.style.display = 'none';
         }, 600);
-      }, 2500); 
+      }, 3500); 
     });
   </script>
 </body>
