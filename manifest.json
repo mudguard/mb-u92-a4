@@ -14,8 +14,8 @@
     }
   ],
   "start_url": "/mb-u92-a4/",
-  "background_color": "#ffffff",
   "display": "standalone",
   "scope": "/mb-u92-a4/",
-  "theme_color": "#1F2937"
+  "background_color": "#1a1c23", 
+  "theme_color": "#1a1c23"
 }
