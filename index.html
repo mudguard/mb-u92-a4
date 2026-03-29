@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="background-color: #000000;">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -9,94 +9,79 @@
   <meta name="theme-color" content="#1F2937">
 
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Kitchn">
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/1027/1027128.png">
 
- <style>
-  /* Base Setup for No-Flash Grey */
-  body, html { 
-    margin: 0; padding: 0; 
-    height: 100%; width: 100%; 
-    overflow: hidden; 
-    background-color: #1F2937 !important; 
-  }
+  <style>
+    /* 1. Base Reset - Using dynamic height (dvh) */
+    html, body { 
+      margin: 0; 
+      padding: 0; 
+      width: 100%; 
+      height: 100%; 
+      height: 100dvh; /* The magic fix for mobile browser bars */
+      overflow: hidden; /* Locks the wrapper so it NEVER scrolls */
+      background-color: #1F2937 !important; 
+    }
 
-  /* The Loading Screen Layer */
-  #loading-screen {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: #1F2937; 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity 0.6s ease;
-  }
+    /* 2. Loading Screen */
+    #loading-screen {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #1F2937; 
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.6s ease;
+    }
 
-  /* Size of the icon - matches the larger static one */
-  #loading-screen img { 
-    width: 140px; /* Matched the large static icon size */
-    height: 140px; 
-    margin-bottom: -15px; /* Pulls the text closer to the pot for better alignment */
-  }
+    #loading-screen img { 
+      width: 140px; 
+      height: 140px; 
+      margin-bottom: -15px; 
+    }
 
- 
+    .brand-text {
+      color: #000000; 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 1.30rem;
+      font-weight: 900; 
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin: 15px 0 0 0;
+    }
 
-  .brand-text {
-    color: #000000; 
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    font-size: 1.30rem;    /* Slightly larger to emphasize the boldness */
-    font-weight: 1000;      /* 700 is Bold, 800 is Extra Bold */
-    letter-spacing: 3px;   /* Increased slightly to keep it readable while bold */
-    text-transform: uppercase;
-    margin: 15px 0 0 0;
-  }
+    .pulse-container { 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      animation: pulse 2s infinite ease-in-out; 
+    }
 
-  /* The Pulse container - applies the pulse to BOTH image and text */
-  .pulse-container { 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    animation: pulse 2s infinite ease-in-out; 
-  }
+    @keyframes pulse { 
+      0% { transform: scale(0.97); opacity: 0.8; } 
+      50% { transform: scale(1.03); opacity: 1; } 
+      100% { transform: scale(0.97); opacity: 0.8; } 
+    }
 
-  /* Smooth Pulse Animation */
-  @keyframes pulse { 
-    0% { transform: scale(0.97); opacity: 0.8; } 
-    50% { transform: scale(1.03); opacity: 1; } 
-    100% { transform: scale(0.97); opacity: 0.8; } 
-  }
+    /* 3. The Iframe - Fixed to respect the dynamic boundaries */
+    iframe {
+      border: none;
+      width: 100%;
+      height: 100%; /* Matches the body's safe dimensions perfectly */
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      overflow: hidden; 
+    }
+  </style>
+</head>
+<body>
 
-  /* This ensures the top of the webpage doesn't try to 
-   overlap the navy status bar area on notched phones */
-html {
-  background-color: #1F2937; /* Matches the status bar */
-}
-
-body {
-  background-color: #000000; /* Matches your loading screen */
-  /* Keeps content below the status bar on some browsers */
-  padding-top: env(safe-area-inset-top); 
-}
-  /* The app iframe hidden behind the loader */
-iframe {
-  border: none;
-  width: 100vw;   /* Force width to 100% of the viewport */
-  height: 100vh;  /* Force height to 100% of the viewport */
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: 0;
-  padding: 0;
-  overflow: hidden; /* This prevents the scroll bar from ever appearing */
-}
-</style>
-
-<body style="background-color: #000000;">
   <div id="loading-screen">
     <div class="pulse-container">
       <img src="https://cdn-icons-png.flaticon.com/512/1027/1027128.png">
@@ -111,15 +96,13 @@ iframe {
       navigator.serviceWorker.register('sw.js').catch(err => console.log('SW error:', err));
     }
 
-    // Hide loader once the GitHub page is "ready"
-    // Note: We use 3500ms (3.5s) to ensure Google's slow iframe has a head start
     window.addEventListener('load', function() {
       setTimeout(function() {
         const loader = document.getElementById('loading-screen');
-        loader.style.opacity = '0';
-        setTimeout(() => {
-          loader.style.display = 'none';
-        }, 600);
+        if (loader) {
+          loader.style.opacity = '0';
+          setTimeout(() => { loader.style.display = 'none'; }, 600);
+        }
       }, 3500); 
     });
   </script>
