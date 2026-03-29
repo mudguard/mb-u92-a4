@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  
   <style>
-    /* This makes the iframe fill the whole screen and hides scrollbars */
-    body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }
+    /* Ensure the wrapper takes up the full screen */
+    body, html { 
+      margin: 0; 
+      padding: 0; 
+      height: 100%; 
+      width: 100%; 
+      overflow: hidden; /* Prevents the 'outer' page from scrolling */
+    }
+    
     iframe {
       border: none;
       width: 100%;
       height: 100%;
+      display: block;
     }
   </style>
 </head>
 <body>
- <iframe src="https://script.google.com/macros/s/AKfycby4I8XGdE1ZMeQrJO43wG2_qm40lOquTNX6VSOhHaVS-I99l-1pQZU2IS6-fMfd1hTv/exec"></iframe>
+  <iframe src="https://script.google.com/macros/s/AKfycby4I8XGdE1ZMeQrJO43wG2_qm40lOquTNX6VSOhHaVS-I99l-1pQZU2IS6-fMfd1hTv/exec"></iframe>
 </body>
 </html>
