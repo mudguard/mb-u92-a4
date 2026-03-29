@@ -61,7 +61,19 @@
   <iframe id="app-frame" src="https://script.google.com/macros/s/AKfycby4I8XGdE1ZMeQrJO43wG2_qm40lOquTNX6VSOhHaVS-I99l-1pQZU2IS6-fMfd1hTv/exec"></iframe>
 
   <script>
-    // Existing Service Worker and Load script...
+  if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        const loader = document.getElementById('loading-screen');
+        loader.style.opacity = '0';
+        setTimeout(() => {
+          loader.style.display = 'none';
+        }, 600);
+      }, 2500); 
+    });
   </script>
 </body>
 </html>
