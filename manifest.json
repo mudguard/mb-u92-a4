@@ -1,0 +1,21 @@
+{
+  "short_name": "Meals",
+  "name": "Meal Planner",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/1027/1027128.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/1027/1027128.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/mb-u92-a4/",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "/mb-u92-a4/",
+  "theme_color": "#00b894"
+}
