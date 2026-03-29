@@ -1,28 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background-color: #1a1c23;">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Meal Planner</title>
+  <title>Kitchn Edwards</title>
 
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1a1c23">
 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Meals">
+  <meta name="apple-mobile-web-app-title" content="Kitchn">
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/1027/1027128.png">
 
   <style>
-    /* Reset and Full Screen Setup */
+    /* 1. Prevent White Flash */
     body, html { 
       margin: 0; padding: 0; 
       height: 100%; width: 100%; 
       overflow: hidden; 
-      background-color: #1a1c23; /* Dark background to prevent white flash */
+      background-color: #1a1c23 !important; 
     }
 
-    /* The Loading Screen Layer */
+    /* 2. Loading Screen - Fixed to your Dark Theme */
     #loading-screen {
       position: fixed;
       top: 0; left: 0;
@@ -37,93 +37,61 @@
     }
 
     #loading-screen img {
-      width: 90px;
-      height: 90px;
+      width: 85px;
+      height: 85px;
+      margin-bottom: 15px;
     }
 
-    #loading-screen p {
-      color: #10B981; /* Your theme green */
-      margin-top: 15px;
+    /* 3. Modern Brand Text */
+    .brand-text {
+      color: #5f6368; /* Sophisticated Dark Grey */
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      font-size: 1.1rem;
-      font-weight: 500;
+      font-size: 1.2rem;
+      font-weight: 300;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin: 0;
     }
 
-    /* The Jiggle Animation */
-    .jiggle {
-      animation: jiggle 0.4s infinite ease-in-out;
+    /* 4. Smooth Pulse Animation */
+    .pulse-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: pulse 2s infinite ease-in-out;
     }
 
-    @keyframes jiggle {
-      0% { transform: rotate(-5deg); }
-      50% { transform: rotate(5deg); }
-      100% { transform: rotate(-5deg); }
+    @keyframes pulse {
+      0% { transform: scale(0.98); opacity: 0.7; }
+      50% { transform: scale(1.02); opacity: 1; }
+      100% { transform: scale(0.98); opacity: 0.7; }
     }
 
-    /* The Iframe (Your Google Script) */
+    /* Iframe Setup */
     iframe {
       border: none;
       width: 100%;
       height: 100%;
       display: block;
     }
-
-    #loading-screen {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: #8a8d91; 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  transition: opacity 0.6s ease;
-}
-
-/* Specific styling for the Kitchn text */
-.brand-text {
-  color: #8a8d91; /* A sophisticated dark grey */
-  margin-top: 15px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 1.4rem;
-  font-weight: 300; /* Light weight looks more premium */
-  letter-spacing: 2px; /* Spaced out letters for a 'logo' feel */
-  text-transform: uppercase;
-}
-
-#loading-screen img {
-  width: 80px;
-  height: 80px;
-}
-
-.pulse {
-  animation: pulse 2s infinite ease-in-out;
-}
-
-@keyframes pulse {
-  0% { transform: scale(0.95); opacity: 0.8; }
-  50% { transform: scale(1.05); opacity: 1; }
-  100% { transform: scale(0.95); opacity: 0.8; }
-}
   </style>
 </head>
-<body>
+<body style="background-color: #1a1c23;">
 
   <div id="loading-screen">
-    <img src="https://cdn-icons-png.flaticon.com/512/1027/1027128.png" class="pulse">
-    <p class="brand-text">Kitchn Edwards</p>
+    <div class="pulse-container">
+      <img src="https://cdn-icons-png.flaticon.com/512/1027/1027128.png">
+      <p class="brand-text">Kitchn Edwards</p>
+    </div>
   </div>
 
   <iframe id="app-frame" src="https://script.google.com/macros/s/AKfycby4I8XGdE1ZMeQrJO43wG2_qm40lOquTNX6VSOhHaVS-I99l-1pQZU2IS6-fMfd1hTv/exec"></iframe>
 
   <script>
-    // 4. Register Service Worker for PWA
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js');
     }
 
-    // 5. Hide Loader after the script has had time to load (3 seconds)
     window.addEventListener('load', function() {
       setTimeout(function() {
         const loader = document.getElementById('loading-screen');
@@ -131,9 +99,8 @@
         setTimeout(() => {
           loader.style.display = 'none';
         }, 600);
-      }, 3000); // 3 seconds - Adjust if needed
+      }, 3000); 
     });
   </script>
-
 </body>
 </html>
